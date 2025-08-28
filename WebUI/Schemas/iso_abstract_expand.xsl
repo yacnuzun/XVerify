@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:sch="http://purl.oclc.org/dsdl/schematron"
+  version="2.0">
+
+  <xsl:output method="xml" indent="yes"/>
+
+  <xsl:template match="@*|node()">
+    <xsl:copy>
+      <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="sch:extends">
+    <xsl:variable name="id" select="@rule"/>
+    <xsl:apply-templates select="//sch:pattern//sch:rule[@id=$id]/sch:assert"/>
+  </xsl:template>
+
+</xsl:stylesheet>

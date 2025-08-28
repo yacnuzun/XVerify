@@ -1,0 +1,68 @@
+﻿@page "/upload-xml"
+@using Application.Dto_s
+@using Application.Services
+@inject XmlProcessingService XmlProcessingService
+@inject IWebHostEnvironment Env
+@using Microsoft.AspNetCore.Components.Forms
+
+<h3>XML Yükle</h3>
+
+<InputFile OnChange="HandleFileSelected" />
+
+@if (!string.IsNullOrEmpty(OriginalXml))
+{
+    <h4>XML Ön İzleme</h4>
+    <pre style="background:#f4f4f4; padding:10px; border:1px solid #ccc; white-space:pre-wrap;">
+        @OriginalXml
+            </pre>
+}
+
+@if (Result != null)
+{
+    <h4>XSD Hataları</h4>
+    <ul>
+        @foreach (var error in Result.XsdErrors)
+        {
+            <li>@error</li>
+        }
+    </ul>
+
+    <h4>Schematron Raporu</h4>
+    <div>@Result.SchematronReport</div>
+
+    <h4>Dönüştürülmüş HTML</h4>
+    <div>@((MarkupString)Result.TransformedHtml)</div>
+}
+
+@code {
+    private XmlProcessingResult Result;
+    private string OriginalXml;
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        // 📌 Geçici path oluştur
+        var tempPath = Path.GetTempFileName();
+        await using (var stream = File.Create(tempPath))
+        {
+            // 10 MB’a kadar izin verelim (default 512 KB)
+            await file.OpenReadStream(maxAllowedSize: 10_000_000).CopyToAsync(stream);
+        }
+
+        // 📌 Orijinal XML içeriğini oku
+        OriginalXml = await File.ReadAllTextAsync(tempPath);
+
+        // 📌 Schema path'leri
+        var schemaRoot = Path.Combine(Env.ContentRootPath, "Schemas");
+
+        var xsdPath = Path.Combine(schemaRoot, "invoice.xsd");
+        var schematronPath = Path.Combine(schemaRoot, "rules.xslt");
+        var xsltPath = Path.Combine(schemaRoot, "invoice-to-html.xslt");
+
+        // 📌 İşlem
+        Result = await XmlProcessingService.ProcessAsync(tempPath, xsdPath, schematronPath, xsltPath);
+        Console.WriteLine("XML İçeriği:");
+        Console.WriteLine(OriginalXml);
+    }
+}

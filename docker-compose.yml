@@ -1,0 +1,16 @@
+﻿services:
+  webui:
+    build:
+      context: .          # solution root
+      dockerfile: Dockerfile
+    container_name: webui
+    ports:
+    - "8080:80"
+    environment:
+      DOTNET_ENVIRONMENT: "Development"
+      # DataProtection key path ayarlanıyor
+      DOTNET_USER_SECRETS: "/root/.aspnet/DataProtection-Keys"
+    volumes:
+      - ./Schemas:/app/Schemas
+      # ✅ DataProtection anahtarları host'a mount edildi
+      - ./DataProtection-Keys:/root/.aspnet/DataProtection-Keys:rw
