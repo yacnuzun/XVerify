@@ -9,8 +9,6 @@
 
 XVerify, SOAP API'lerin ve XML tabanlı sistemlerin kalbinde yer alan XML, XSD, Schematron ve XSLT teknolojilerini görselleştirmenizi, doğrulamanızı ve anlamanızı sağlayan modern bir web uygulamasıdır.
 
-![XVerify Ekran Görüntüsü](https://via.placeholder.com/800x400?text=XVerify+UI+Screenshot+Here) 
-*Örnek bir XML dosyasının doğrulama sonuçları ve HTML dönüşümü.*
 
 ## ✨ Öne Çıkan Özellikler
 
