@@ -129,3 +129,59 @@ public async Task<XmlProcessingResult> ProcessAsync(string xmlPath, string xsdPa
 
     return new XmlProcessingResult { ... };
 }
+
+# 💻 Docker container eklendi (Commit: fc8b6cfa, 2025-08-30)
+
+# 🚀 Yeni Eklenenler 
+
+- [2025-08-30] Dosya yapıları güncellendi.
+
+# XVerify Project
+
+Proje şu anda **uygulama kodu**, **testler** ve **dağıtım (Docker)** dosyaları arasında net bir ayrımla yapılandırılmıştır.
+
+---
+
+## 📂 Project Structure
+
+XVerify/
+
+├─ src/ # Application source code
+
+│ ├─ WebApi/ # Web API project
+
+│ ├─ ClassLib1/ # Example class library
+
+│ └─ ClassLib2/ # Example class library
+
+├─ test/ # Unit and integration tests
+
+│ ├─ WebApi.Tests/
+
+│ └─ ClassLib1.Tests/
+
+├─ docker/ # Docker-related files
+
+│ ├─ Dockerfile
+
+│ ├─ docker-compose.yml
+
+│ └─ .dockerignore
+
+└─ XVerify.sln # Solution file
+
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+- [Docker](https://docs.docker.com/get-docker/)
+
+### Build & Run (Local)
+
+```bash
+cd src/WebApi
+dotnet build
+dotnet run
