@@ -1,8 +1,8 @@
 ﻿services:
   webui:
     build:
-      context: .          # solution root
-      dockerfile: Dockerfile
+      context: ../          # solution root
+      dockerfile: docker/Dockerfile
     container_name: webui
     ports:
     - "8080:80"

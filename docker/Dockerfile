@@ -4,18 +4,18 @@ WORKDIR /XVerify
 EXPOSE 80
 
 # Önce csproj dosyalarýný kopyala (restore cache için)
-COPY WebUI/WebUI.csproj WebUI/
-COPY Application/Application.csproj Application/
+COPY ../src/WebUI/WebUI.csproj WebUI/
+COPY ../src/Application/Application.csproj Application/
 
 # Restore yap
 RUN dotnet restore WebUI/WebUI.csproj
 
 # Tüm solution kodlarýný kopyala
-COPY . .
+COPY ../src/ ./src/
 
+WORKDIR /XVerify
 # Publish et
-WORKDIR WebUI
-RUN dotnet publish -c Release -o /app/publish
+RUN dotnet publish src/WebUI/WebUI.csproj -c Release -o /app/publish
 
 # 2. Runtime aþamasý
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
