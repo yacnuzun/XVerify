@@ -7,7 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repository\" />
+    <Folder Include="Scripts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.4.0" />
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Npgsql" Version="9.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
