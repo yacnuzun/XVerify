@@ -1,7 +1,10 @@
 
 using Application.Interfaces;
 using Application.Services.Implamentations;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Infrastructure.Context;
+using Infrastructure.DependencyInjection;
 using Infrastructure.Repository;
 using Infrastructure.Repository.Implementations;
 using Infrastructure.Repository.Interfaces;
@@ -17,6 +20,9 @@ namespace XVerify.WebAPI
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+            builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new AutofacBusinessModule()));
             builder.Services.AddScoped<Infrastructure.Context.IConnectionFactory>(_ =>
             new SqlConnectionFactory(builder.Configuration.GetConnectionString("DefaultConnection")));
 
